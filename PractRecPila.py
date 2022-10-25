@@ -1,9 +1,33 @@
 # Creado por: Ian Steven Coto Soto, Fabián Araya
 # Fecha de creación: 23/10/2022 11:28 am
-# Última modificación: 23/10/2022 03:18 pm
+# Última modificación: 24/10/2022 10:10 pm
 # Versión: 3.10.8
 
 # Definir funciones auxiliares
+def recurDivisores(num, div):
+    """
+    F: Función que se encarga de obtener la suma de los divisores de un número
+    E:numero(int), div (int)
+    S:Suma de los divisores
+    """
+    if div==num:
+        return 0
+    else:
+        if num%div==0:
+            return div+recurDivisores(num,div+1)
+        else:
+            return 0+recurDivisores(num, div+1)
+
+def esPar (num):
+    """
+    Funcionalidad: Determina si un número es par
+    Entradas: num (int)
+    Salidas: True/False (bool)
+    """
+    if num%2==0:
+        return True 
+    else:
+        return False
 
 def esDigito(pDigito):
     """
@@ -84,6 +108,43 @@ def esPrimo(pNum, div=2):
         return esPrimo(pNum, div+1)
 
 # Definir funciones retos
+'----------------- Reto 1 -------------------'
+def digitoPosicion (posi, numero):
+    """
+    F:Deetrmina si el número en la posición escogida es par o impar.
+    E:posi (int), numero(int)
+    S:Devuelve un valor booleano (bool)
+    """
+    valor=False
+    if posi==1:
+        return esPar(numero%10)
+    else:
+        return digitoPosicion(posi-1, numero//10)
+
+def digitoPosicionAux (posi, numero):
+    """
+    F:Valida las entradas
+    E:posi (int), numero(int)
+    S:Un string o el valor de la función digitoPosicion
+    """
+    try:
+        numero=int(numero)
+        posi=int(posi)
+        if (posi<=contarDigitos(numero)) and (posi>=1):
+            return digitoPosicion(posi,numero)
+        else:
+            return "El número no posee en índice solicitado o el indice es menor que 1"
+    except:
+        return "Debe digitar un número entero"
+
+def digitoPosicionES(posi, numero):
+    """
+    F:Imprime las entradas y el valor de la función auxiliar
+    E:posi (int), numero(int)
+    S:Valor de digitoPosicionAux
+    """
+    print("Entradas:", posi, numero)
+    return print(digitoPosicionAux(posi, numero))
 
 '----------------- Reto 2 -------------------'
 
@@ -172,6 +233,42 @@ def binarioADecimalAux(pBinario):
         return "Debe introducir un número binario."
     return binarioADecimal(pBinario)
 
+'----------------- Reto 4 -------------------'
+def sumatoria(numero):
+    """
+    F:Determina la sumatoria del numero digitado
+    E:numero(int)
+    S:Devuelve la sumatoria del número (int)
+    """
+    if numero==0:
+        return 0
+    else:
+        return numero + sumatoria(numero-1)
+        
+def sumatoriaAux(numero):
+    """
+    F:Valida las entradas
+    E:numero(int)
+    S:Un string o el valor de la función sumatoria
+    """
+    try:
+        numero=int(numero)
+        if numero>=0:
+            return sumatoria(numero)
+        else:
+            return "El número tiene que ser mayor o igual a 0"
+    except:
+        return "Se excedió la cantidad máxima de recursión que es 99 o el número introducido no es entero"
+
+def sumatoriaES(numero):
+    """
+    F:Imprime las entradas y el valor de la función auxiliar
+    E:numero(int)
+    S:Valor de sumatoriaAux
+    """
+    print("Entrada:", numero)
+    return print(sumatoriaAux(numero))
+
 '----------------- Reto 5 -------------------'
 
 def cantidadPrimosRango(pNum, pNumUlt):
@@ -225,7 +322,55 @@ def primoMenorCercanoAux(pNum):
         return 1
     return primoMenorCercano(pNum)
 
+'----------------- Reto 7 -------------------'
+
+def numCercanos(num1, num2):
+    """
+    F: Determina si dos números son cercanos
+    E: num1(int), num2 (int)
+    S: Devuelve un valor True/False (bool)
+    """
+    div1=recurDivisores(num1, 1)
+    div2=recurDivisores(num2, 1)
+    if div1==div2:
+        return True
+    else:
+        return False
+
+def numCercanosAux(num1, num2):
+    """
+    F:Valida las entradas
+    E:num1(int), num2 (int)
+    S:Un string o el valor de la función numCercanos
+    """
+    try:
+        num1=int(num1)   
+        num2=int(num2)
+        if (num1>=1) and (num2>=1):
+            return numCercanos(num1, num2)
+        else:
+            return "Ambos números tienen que ser igual o mayores que 1"
+    except:
+        return "Los numeros tienen que ser enteros"
+        
+def numCercanosES(num1, num2):
+    """
+    F:Imprime las entradas y el valor de la función auxiliar
+    E:num1 (int), num2 (int)
+    S:Valor de numCercanosAux
+    """
+    print("Entradas: ", num1, num2)
+    return print(numCercanosAux(num1, num2))
+    
 # Programa principal
+'----------------- Reto 1 -------------------'
+
+print('\n----------------- Reto 1 -------------------\n'+
+'-------- Digito en posicion n es par --------')
+digitoPosicionES(3, 6700)
+digitoPosicionES(4, 92553)
+digitoPosicionES(3, 80)
+digitoPosicionES(1, 94)
 
 '----------------- Reto 2 -------------------'
 
@@ -256,6 +401,16 @@ print("\nD. n=110010")
 print(binarioADecimalAux(110010))
 print("\nE. n=234")
 print(binarioADecimalAux(234))
+
+'----------------- Reto 4 -------------------'
+print('\n----------------- Reto 4 -------------------\n'+
+'-------- Sumatoria de un número --------')
+sumatoriaES(10)
+sumatoriaES(1000)#Esta prueba va a dar error, ya que la cantidad máxima de recursión que permite python es 99
+sumatoriaES(4)
+sumatoriaES(100000)#Esta prueba va a dar error, ya que la cantidad máxima de recursión que permite python es 99
+sumatoriaES(99)
+sumatoriaES(89)
 '----------------- Reto 5 -------------------'
 
 print('\n----------------- Reto 5 -------------------\n' + 
@@ -284,3 +439,12 @@ print("\nD. n=65")
 print(primoMenorCercanoAux(65))
 print("\nE. n=-12")
 print(primoMenorCercanoAux(-12))
+
+'----------------- Reto 7 -------------------'
+print('\n----------------- Reto 7 -------------------\n'+
+'-------- Determinar si 2 números son cercanos --------')
+
+numCercanosES(13, 7)
+numCercanosES(18, 51)
+numCercanosES(98, 175)
+numCercanosES(220, 562)
